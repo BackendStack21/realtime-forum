@@ -32,4 +32,3 @@ fetch(`https://${API_GATEWAY_HOSTNAME}/telemetry/aggregates/${APP_ID}/1`, option
 
     console.log(await response.json())
   })
-

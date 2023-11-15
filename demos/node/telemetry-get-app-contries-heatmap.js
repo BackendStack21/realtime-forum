@@ -27,7 +27,7 @@ fetch(`https://${API_GATEWAY_HOSTNAME}/telemetry/heatmap/connections/countries/$
   .then(async response => {
     console.log({
       statusText: response.statusText,
-      status: response.status,
+      status: response.status
     })
 
     console.log(await response.json())

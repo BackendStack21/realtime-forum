@@ -32,4 +32,3 @@ fetch(`https://${API_GATEWAY_HOSTNAME}/telemetry/top-topics/${APP_ID}/1?limit=10
 
     console.log(await response.json())
   })
-
