@@ -1,0 +1,8 @@
+{
+  "name": "r7-demos",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "websocket": "^1.0.34"
+  }
+}
