@@ -3,6 +3,8 @@
   "dependencies": {
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
-    "websocket": "^1.0.34"
+    "reconnecting-websocket": "^4.4.0",
+    "websocket": "^1.0.34",
+    "ws": "^8.14.2"
   }
 }
