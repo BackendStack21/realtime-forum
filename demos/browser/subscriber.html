@@ -1,0 +1,31 @@
+<script>
+  const ACCESS_TOKEN = '***' // Replace with your access token
+  const APP_ID = 'a927a66b45b41cee3153f28c4cbee45a' // Replace with your R7 Application ID
+
+  const ws = new WebSocket(`wss://genesis.r7.21no.de/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
+  ws.onmessage = async (event) => {
+    // Parse incoming WebSocket messages
+    const { topic, messageType, data } = event.data instanceof Blob
+      ? JSON.parse(await event.data.text()) // compression is enabled
+      : JSON.parse(event.data)
+
+    // Check if it's a welcome message from the 'main' topic
+    if (topic === 'main' && messageType === 'welcome') {
+      console.log('> Connected!')
+    }
+
+    // Log incoming WebSocket messages
+    console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof Blob })
+  }
+  ws.onerror = (err) => {
+    // Handle and log WebSocket connection errors
+    console.log('Connection error: ', err)
+  }
+  ws.onclose = ({ code, reason }) => {
+    // Handle and log WebSocket connection closure
+    console.log('Connection closed: ', {
+      code,
+      reason
+    })
+  }
+</script>
