@@ -1,6 +1,6 @@
 <script>
   const ACCESS_TOKEN = '***' // Replace with your access token
-  const APP_ID = 'a927a66b45b41cee3153f28c4cbee45a' // Replace with your R7 Application ID
+  const APP_ID = 'APP ID' // Replace with your R7 Application ID
 
   const ws = new WebSocket(`wss://genesis.r7.21no.de/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
   ws.onmessage = async (event) => {
