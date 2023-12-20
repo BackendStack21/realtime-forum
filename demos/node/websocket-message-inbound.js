@@ -19,7 +19,7 @@ const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {}, ALGORITH
 const ws = new W3CWebSocket(`wss://${CLUSTER_HOSTNAME}/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
 ws.onmessage = (event) => {
   // Parse incoming WebSocket messages
-  const { topic, messageType } = event.data instanceof ArrayBuffer
+  const { topic, messageType, data } = event.data instanceof ArrayBuffer
     ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
     : JSON.parse(event.data)
 
@@ -37,7 +37,13 @@ ws.onmessage = (event) => {
           compress: true
         }
       }))
-    }, 1000)
+    }, 5000)
+  }
+
+  // Log incoming WebSocket messages
+  if (data && data.type === 'response') {
+    console.log(`... Acknowledged message: ${data.ack}`)
+    console.log(`... Processing status: ${data.status}`)
   }
 }
 ws.onerror = (err) => {
