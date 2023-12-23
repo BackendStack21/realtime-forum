@@ -21,6 +21,8 @@ const PUBLISHER_PERMISSIONS = {
   roles: ['Publisher'],
   allowedTopics: ['*']
 }
+// Define the publishing endpoint
+const PUBLISHING_ENDPOINT = `https://${CLUSTER_HOSTNAME}/api/topics/${APP_ID}/publish`
 
 // Initialize the AWS SQS service with the provided credentials
 const sqs = new AWS.SQS({
@@ -76,9 +78,9 @@ async function init () {
             })
           }
           // Define the publish URL
-          const URL = `https://${CLUSTER_HOSTNAME}/api/topics/${APP_ID}/publish`
+
           // Send the acknowledgement request
-          const response = await fetch(URL, options)
+          const response = await fetch(PUBLISHING_ENDPOINT, options)
 
           // Log the response status
           console.log({
