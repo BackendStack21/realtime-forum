@@ -34,8 +34,8 @@ const sqs = new AWS.SQS({
 })
 
 // Define the main function
-async function init () {
-  // Start an infinite loop
+async function init() {
+  // Start processing SQS Queue messages
   while (true) {
     try {
       // Receive messages from the SQS queue
@@ -54,6 +54,7 @@ async function init () {
           // Parse the message body
           const { msg } = JSON.parse(Body)
           const { client, payload, id } = msg
+          // Define R7 responding topic for the client
           const topic = `priv/${client.subject}`
 
           // Log the received message payload
@@ -77,12 +78,10 @@ async function init () {
               }
             })
           }
-          // Define the publish URL
 
           // Send the acknowledgement request
           const response = await fetch(PUBLISHING_ENDPOINT, options)
-
-          // Log the response status
+          // Optionally log the response status
           console.log({
             statusText: response.statusText,
             status: response.status
