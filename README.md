@@ -12,6 +12,6 @@ Our aim is to build a strong and active community, you are welcome 💚
 > YouTube Video: [Getting Started with Realtime Pub/Sub - Backend Clock Stream Demo](https://www.youtube.com/watch?v=jTqAcqAllVY)
 
 ### Complementary links:
-- Documentation: https://r7.21no.de/#/documentation
-- FAQs: https://r7.21no.de/#/faq
+- Documentation: https://r7.21no.de/documentation
+- FAQs: https://r7.21no.de/faq
 
