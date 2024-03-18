@@ -6,6 +6,12 @@ const utils = require('./utils')
 const SUBJECT = process.env.SUBJECT || 'user0' // Default subject identifier
 const EXPIRES_IN = process.env.EXPIRES_IN || '10m' // Default token expiration time
 const TOKEN_TYPE = process.env.TOKEN_TYPE || 'client' // Default token type: 'client' or 'admin'
+const DEFAULT_PAYLOAD = {
+  admin: {
+    roles: ['Publisher'],
+    allowedTopics: ['*']
+  }
+}
 
 /**
  * Generates an authentication token based on the specified type.
@@ -24,7 +30,7 @@ function generateAuthToken () {
   const token = utils.getAuthToken(
     signingKey,
     EXPIRES_IN,
-    {}, // Payload is empty, can be extended to include additional information
+    DEFAULT_PAYLOAD[TOKEN_TYPE] || {}, // Payload is empty, can be extended to include additional information
     config.ALGORITHM, // Algorithm from the configuration
     SUBJECT // Subject identifier
   )
