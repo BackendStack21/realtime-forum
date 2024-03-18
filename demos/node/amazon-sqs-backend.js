@@ -34,7 +34,7 @@ const sqs = new AWS.SQS({
 })
 
 // Define the main function
-async function init() {
+async function init () {
   // Start processing SQS Queue messages
   while (true) {
     try {
