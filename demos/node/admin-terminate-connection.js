@@ -1,7 +1,3 @@
-// Import "fetch" library
-// NOTE: The 'fetch' library is natively available on Web browsers
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
-
 const { getAuthToken } = require('./utils')
 
 const {
