@@ -1,5 +1,5 @@
 const APP_ID = 'YOUR_APP_ID'
-const AUTH_TOKEN = 'Bearer AUTH_TOKEN_HERE'
+const AUTH_TOKEN = 'Bearer AUTH_TOKEN_HERE' // verifiable via "app/configuration/adminKey"
 
 const reqHeaders = new Headers()
 reqHeaders.append('Accept', 'application/json')
