@@ -17,6 +17,5 @@ fetch(`https://genesis.r7.21no.de/api/topics/${APP_ID}/publish`, {
     }
   })
 })
-  .then(() => console.log('Message published!'))
-  .catch(console.error)
+  .then(res => console.log(`Status: ${res.status} - ${res.statusText}`))
 
