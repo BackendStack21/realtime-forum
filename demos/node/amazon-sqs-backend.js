@@ -50,7 +50,7 @@ async function init () {
           // Parse the message body
           const { msg } = JSON.parse(Body)
           const { client, payload, id } = msg
-          // Define R7 responding topic for the client
+          // Define responding topic for the client
           const topic = `priv/${client.subject}`
 
           // Log the received message payload

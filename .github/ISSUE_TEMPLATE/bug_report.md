@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve our R7 solution
+about: Create a report to help us improve our solution
 title: ''
 labels: 'bug'
 assignees: ''

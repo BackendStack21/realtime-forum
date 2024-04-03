@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea or improvement for our R7 SaaS solution
+about: Suggest an idea or improvement for our solution
 title: ''
 labels: 'enhancement'
 assignees: ''

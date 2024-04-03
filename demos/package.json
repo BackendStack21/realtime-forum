@@ -1,5 +1,5 @@
 {
-  "name": "r7-demos",
+  "name": "realtime-demos",
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.477.0",
     "jsonwebtoken": "^9.0.2",
