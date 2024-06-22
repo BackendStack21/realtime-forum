@@ -21,7 +21,7 @@ const options = {
 
 setInterval(() => {
   const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-    scope: 'realtime:publisher:write:topic:' + TOPIC
+    permissions: ['realtime:publisher:write:topic:' + TOPIC]
   }, ALGORITHM, 'app-publisher')
 
   options.headers.Authorization = `Bearer ${AUTH_TOKEN}`

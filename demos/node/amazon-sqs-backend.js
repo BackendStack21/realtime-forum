@@ -14,7 +14,7 @@ const {
 
 // Define the permissions for the publisher
 const PUBLISHER_PERMISSIONS = {
-  scope: 'realtime:publisher:write:topic:*'
+  permissions: ['realtime:publisher:write:topic:*']
 }
 // Define the publishing endpoint
 const PUBLISHING_ENDPOINT = `https://${CLUSTER_HOSTNAME}/api/topics/${APP_ID}/publish`

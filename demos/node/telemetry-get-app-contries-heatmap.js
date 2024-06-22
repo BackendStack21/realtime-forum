@@ -8,7 +8,7 @@ const {
 const { getAuthToken } = require('./utils')
 
 const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-  scope: 'realtime:admin:manage:application'
+  permissions: ['realtime:admin:manage:application']
 }, ALGORITHM, 'telemetry-operator')
 
 const options = {

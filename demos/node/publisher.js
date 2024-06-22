@@ -10,7 +10,9 @@ const {
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
 const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-  scope: 'realtime:publisher:write:topic:*'
+  permissions: ['realtime:publisher:write:topic:*']
+  // or 
+  // scope: 'realtime:publisher:write:topic:*'
 }, ALGORITHM, 'app-publisher')
 
 // Defining the arguments for the publishing operation

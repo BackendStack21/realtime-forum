@@ -16,7 +16,9 @@ const SECURE_TOPIC = 'secure/inbound'
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
 const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {
-  scope: 'realtime:subscriber:read:topic:*'
+  permissions: ['realtime:subscriber:read:topic:*']
+  // or 
+  // scope: 'realtime:subscriber:read:topic:*'
 }, ALGORITHM, 'user-01')
 
 // Create a WebSocket connection

@@ -10,7 +10,7 @@ const {
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
 const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-  scope: 'realtime:admin:manage:connections'
+  permissions: ['realtime:admin:manage:connections']
 }, ALGORITHM, 'app-connections-admin')
 
 // Defining the arguments for the "terminate connection" operation
