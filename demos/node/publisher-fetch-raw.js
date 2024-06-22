@@ -18,4 +18,3 @@ fetch(`https://genesis.r7.21no.de/api/topics/${APP_ID}/publish`, {
   })
 })
   .then(res => console.log(`Status: ${res.status} - ${res.statusText}`))
-

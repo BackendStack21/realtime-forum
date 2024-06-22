@@ -8,8 +8,10 @@ const EXPIRES_IN = process.env.EXPIRES_IN || '10m' // Default token expiration t
 const TOKEN_TYPE = process.env.TOKEN_TYPE || 'client' // Default token type: 'client' or 'admin'
 const DEFAULT_PAYLOAD = {
   admin: {
-    roles: ['Publisher'],
-    allowedTopics: ['*']
+    scope: 'realtime:publisher:write:topic:*'
+  },
+  client: {
+    scope: 'realtime:subscriber:read:topic:*'
   }
 }
 

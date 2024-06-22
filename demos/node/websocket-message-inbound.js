@@ -33,8 +33,10 @@ ws.onmessage = (event) => {
       ws.send(JSON.stringify({
         type: 'message',
         data: {
-          payload: `${new Date().toISOString()} - Saying hi from WS client... `,
-          compress: true
+          compress: true,
+          payload: {
+            time: Date.now()
+          }
         }
       }))
     }, 5000)

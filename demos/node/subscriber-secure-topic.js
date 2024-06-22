@@ -7,7 +7,6 @@ const { getAuthToken } = require('./utils')
 const {
   APP_ID,
   WEBSOCKET_CLIENTS_SIGNING_KEY, // For HS* signing algorithms, value should be "WebSocket Clients/Verification Key"
-  ADMIN_SIGNING_KEY, // For HS* signing algorithms, value should be "Admin Clients/Verification Key",
   ALGORITHM,
   CLUSTER_HOSTNAME
 } = require('./config') // Import configuration constants
@@ -16,13 +15,8 @@ const SECURE_TOPIC = 'secure/app-secure-topic'
 
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
-const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {}, ALGORITHM, 'user-00')
-
-// Generate an subscription auth token with a 5 seconds expiration
-// In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
-const AUTH_TOKEN_FOR_SECURE_TOPIC = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-  roles: ['Subscriber'],
-  allowedTopics: [SECURE_TOPIC]
+const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {
+  scope: 'realtime:subscriber:read:topic:' + SECURE_TOPIC
 }, ALGORITHM, 'user-00')
 
 // Create a WebSocket connection
@@ -41,8 +35,7 @@ ws.onmessage = (event) => {
     ws.send(JSON.stringify({
       type: 'subscribe',
       data: {
-        topic: SECURE_TOPIC,
-        auth: AUTH_TOKEN_FOR_SECURE_TOPIC
+        topic: SECURE_TOPIC
       }
     }))
   }
