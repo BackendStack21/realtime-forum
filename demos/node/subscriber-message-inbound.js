@@ -17,7 +17,7 @@ const SECURE_TOPIC = 'secure/inbound'
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
 const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {
   permissions: ['realtime:subscriber:read:topic:*']
-  // or 
+  // or
   // scope: 'realtime:subscriber:read:topic:*'
 }, ALGORITHM, 'user-01')
 
