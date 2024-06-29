@@ -1,7 +1,6 @@
 const auth0 = require('./auth0-config')
 
 auth0.getToken().then(accessToken => {
-// Defining the arguments for the publishing operation
   const URL = `https://${auth0.CLUSTER_HOSTNAME}/api/topics/${auth0.APP_ID}/publish`
   const TOPIC = 'main'
   const MESSAGE = 'Hello on the other side ;)'
@@ -19,7 +18,6 @@ auth0.getToken().then(accessToken => {
     })
   }
 
-  // Execute the publish operation, which broadcasts the provided message into the specified target topic
   fetch(URL, options)
     .then(response => {
       console.log({

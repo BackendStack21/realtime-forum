@@ -8,7 +8,7 @@ auth0.getToken().then(accessToken => {
   // Create a WebSocket connection
   const ws = new W3CWebSocket(`wss://${auth0.CLUSTER_HOSTNAME}/apps/${auth0.APP_ID}?access_token=${accessToken}`)
   ws.onmessage = (event) => {
-  // Parse incoming WebSocket messages
+    // Parse incoming WebSocket messages
     const { topic, messageType, data } = event.data instanceof ArrayBuffer
       ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
       : JSON.parse(event.data)
@@ -22,11 +22,11 @@ auth0.getToken().then(accessToken => {
     console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
   }
   ws.onerror = (err) => {
-  // Handle and log WebSocket connection errors
+    // Handle and log WebSocket connection errors
     console.log('Connection error: ', err)
   }
   ws.onclose = ({ code, reason }) => {
-  // Handle and log WebSocket connection closure
+    // Handle and log WebSocket connection closure
     console.log('Connection closed: ', {
       code,
       reason
