@@ -2,11 +2,11 @@
 // https://websockets.spec.whatwg.org
 const W3CWebSocket = require('websocket').w3cwebsocket
 
-const auth0 = require('./auth0-config')
+const config = require('./auth0-config')
 
-auth0.getToken().then(accessToken => {
+config.getToken().then(accessToken => {
   // Create a WebSocket connection
-  const ws = new W3CWebSocket(`wss://${auth0.REALTIME_CLUSTER_HOSTNAME}/apps/${auth0.REALTIME_APP_ID}?access_token=${accessToken}`)
+  const ws = new W3CWebSocket(`wss://${config.REALTIME_CLUSTER_HOSTNAME}/apps/${config.REALTIME_APP_ID}?access_token=${accessToken}`)
   ws.onmessage = (event) => {
     // Parse incoming WebSocket messages
     const { topic, messageType, data } = event.data instanceof ArrayBuffer
