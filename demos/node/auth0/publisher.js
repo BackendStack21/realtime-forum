@@ -1,7 +1,7 @@
 const auth0 = require('./auth0-config')
 
 auth0.getToken().then(accessToken => {
-  const URL = `https://${auth0.CLUSTER_HOSTNAME}/api/topics/${auth0.APP_ID}/publish`
+  const URL = `https://${auth0.REALTIME_CLUSTER_HOSTNAME}/api/topics/${auth0.REALTIME_APP_ID}/publish`
   const TOPIC = 'main'
   const MESSAGE = 'Hello on the other side ;)'
 

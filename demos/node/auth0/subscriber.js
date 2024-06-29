@@ -6,7 +6,7 @@ const auth0 = require('./auth0-config')
 
 auth0.getToken().then(accessToken => {
   // Create a WebSocket connection
-  const ws = new W3CWebSocket(`wss://${auth0.CLUSTER_HOSTNAME}/apps/${auth0.APP_ID}?access_token=${accessToken}`)
+  const ws = new W3CWebSocket(`wss://${auth0.REALTIME_CLUSTER_HOSTNAME}/apps/${auth0.REALTIME_APP_ID}?access_token=${accessToken}`)
   ws.onmessage = (event) => {
     // Parse incoming WebSocket messages
     const { topic, messageType, data } = event.data instanceof ArrayBuffer
