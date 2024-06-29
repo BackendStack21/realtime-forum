@@ -13,9 +13,9 @@ const {
 
 let connections = 0
 function connect () {
-  // This is required to bypass the WebSocket connection limit for same subject 
+  // This is required to bypass the WebSocket connection limit for same subject
   // see: https://realtime.21no.de/documentation/#other-low-level-websocket-server-settings
-  const SUBJECT = getRandomId() 
+  const SUBJECT = getRandomId()
 
   // Generate an access token with a 60 seconds expiration
   const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 60, {}, ALGORITHM, SUBJECT)
