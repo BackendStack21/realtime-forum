@@ -3,11 +3,12 @@ module.exports = {
   CLUSTER_HOSTNAME: 'genesis.r7.21no.de',
   CLIENT_ID: 'YOUR AUTH0 CLIENT ID HERE...',
   CLIENT_SECRET: 'YOUR AUTH0 CLIENT SECRET HERE...',
-  AUDIENCE: 'https://test.api.r7.21no.de',
+  AUTH0_DOMAIN: 'YOUR AUTH0 DOMAIN HERE...',
+  AUDIENCE: 'YOUR API AUDIENCE HERE...',
   GRANT_TYPE: 'client_credentials',
-
+  
   getToken () {
-    return fetch('https://21node.eu.auth0.com/oauth/token', {
+    return fetch(`https://${this.AUTH0_DOMAIN}/oauth/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
