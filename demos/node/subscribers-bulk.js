@@ -24,7 +24,7 @@ function connect () {
   const ws = new W3CWebSocket(`wss://${CLUSTER_HOSTNAME}/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
   ws.onmessage = (event) => {
     // Parse incoming WebSocket messages
-    const { topic, messageType } = event.data instanceof ArrayBuffer
+    const { topic, messageType, data } = event.data instanceof ArrayBuffer
       ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
       : JSON.parse(event.data)
 
@@ -32,6 +32,9 @@ function connect () {
     if (topic === 'main' && messageType === 'welcome') {
       console.log(`> Client ${++connections} connected!`)
     }
+
+    // Log incoming WebSocket messages
+    console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
   }
   ws.onclose = ({ code, reason }) => {
     // Handle and log WebSocket connection closure
