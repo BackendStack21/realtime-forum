@@ -33,7 +33,7 @@ ws.onmessage = (event) => {
       // Publish message on the 'main' topic using WebSocket client
       console.log('> Sending message...')
       ws.send(JSON.stringify({
-        type: 'message',
+        type: 'publish',
         data: {
           topic: 'main',
           compress: false,
@@ -47,9 +47,9 @@ ws.onmessage = (event) => {
   }
 
   // Log incoming WebSocket messages
-  console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
+  // console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
   if (data.payload?.time) {
-    console.log('>> Latency: ', Date.now() - data.payload?.time)
+    console.log(`>> Message roundtrip latency via WebSockets: ${Date.now() - data.payload?.time} ms`, )
   }
 }
 ws.onerror = (err) => {
