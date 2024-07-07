@@ -6,10 +6,8 @@ Our aim is to build a strong and active community, you are welcome 💚
 
 ### Using our demos?
 <div align="left">
-  <a href="https://www.youtube.com/watch?v=jTqAcqAllVY"><img src="https://img.youtube.com/vi/jTqAcqAllVY/0.jpg" alt="Getting Started with Realtime Pub/Sub - Backend Clock Stream Demo"></a>
+  <img src="https://realtime.21no.de/getting-started/img/getting-started-2024.gif" alt="Getting Started with Realtime Pub/Sub demos"></a>
 </div>
-
-> YouTube Video: [Getting Started with Realtime Pub/Sub - Backend Clock Stream Demo](https://www.youtube.com/watch?v=jTqAcqAllVY)
 
 ### Complementary links:
 - Documentation: https://realtime.21no.de/documentation
