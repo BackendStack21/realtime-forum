@@ -49,7 +49,7 @@ ws.onmessage = (event) => {
   // Log incoming WebSocket messages
   // console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
   if (data.payload?.time) {
-    console.log(`>> Message roundtrip latency via WebSockets: ${Date.now() - data.payload?.time} ms`, )
+    console.log(`>> Message roundtrip latency via WebSockets: ${Date.now() - data.payload?.time} ms`)
   }
 }
 ws.onerror = (err) => {
