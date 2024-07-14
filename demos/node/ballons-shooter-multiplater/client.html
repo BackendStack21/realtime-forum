@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balloon Shooter Game</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+  <script src="./client-config.js"></script>
+</head>
+
+<body>
+  <h1>Balloon Shooter Game</h1>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let gameState = { players: [], projectiles: [], balloons: [] };
+    let myId = null;
+    let ws = null;
+
+    function initWebSocket() {
+      ws = new WebSocket(`wss://genesis.r7.21no.de/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
+
+      ws.onmessage = async (event) => {
+        const { topic, messageType, data } = event.data instanceof Blob
+          ? JSON.parse(await event.data.text()) // compression is enabled
+          : JSON.parse(event.data)
+        if (topic === 'main' && messageType === 'welcome') {
+          myId = data.connection.id
+        } else if (topic === 'main' && messageType === 'broadcast') {
+          gameState = data.payload.gameState;
+        }
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed. Attempting to reconnect...');
+        setTimeout(initWebSocket, 3000);
+      };
+    }
+
+    function sendMessage(message) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        const strMsg = JSON.stringify({
+          type: 'message',
+          data: {
+            compress: false,
+            payload: message
+          }
+        })
+        ws.send(strMsg)
+      }
+    }
+
+    function handleMouseMove(event) {
+      if (myId) {
+        const rect = canvas.getBoundingClientRect();
+        const p = {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top
+        };
+        sendMessage({ type: 'move', p });
+      }
+    }
+
+    function handleClick(event) {
+      if (myId) {
+        const rect = canvas.getBoundingClientRect();
+        const clickp = {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top
+        };
+        const player = gameState.players.find(player => player.id === myId);
+        if (player) {
+          const dx = clickp.x - player.p.x;
+          const dy = clickp.y - player.p.y;
+          const magnitude = Math.sqrt(dx * dx + dy * dy);
+          const v = {
+            x: (dx / magnitude) * 5,
+            y: (dy / magnitude) * 5
+          };
+          sendMessage({ type: 'shoot', p: player.p, v });
+        }
+      }
+    }
+
+    function drawGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw balloons
+      gameState.balloons.forEach(balloon => {
+        ctx.fillStyle = balloon.color;
+        ctx.beginPath();
+        ctx.arc(balloon.p.x, balloon.p.y, balloon.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw players
+      gameState.players.forEach(player => {
+        ctx.fillStyle = player.id === myId ? 'blue' : 'red';
+        ctx.beginPath();
+        ctx.arc(player.p.x, player.p.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw player score
+        ctx.fillStyle = 'black';
+        ctx.font = '14px Arial';
+        ctx.fillText(`Score: ${player.score}`, player.p.x - 20, player.p.y - 20);
+      });
+
+      // Draw projectiles
+      gameState.projectiles.forEach(projectile => {
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(projectile.p.x, projectile.p.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(drawGame);
+    }
+
+    function init() {
+      initWebSocket();
+      canvas.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('click', handleClick);
+      drawGame();
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
