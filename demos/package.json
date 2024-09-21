@@ -5,6 +5,7 @@
     "jsonwebtoken": "^9.0.2",
     "reconnecting-websocket": "^4.4.0",
     "websocket": "^1.0.34",
-    "ws": "^8.14.2"
+    "ws": "^8.14.2",
+    "realtime-pubsub-client": "^0.1.0"
   }
 }
