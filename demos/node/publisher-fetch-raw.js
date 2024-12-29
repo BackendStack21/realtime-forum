@@ -13,8 +13,7 @@ fetch(`https://genesis.r7.21no.de/api/topics/${APP_ID}/publish`, {
     topic: 'main',
     message: {
       msg: 'Hello Client!',
-      time: Date.now()
-    }
-  })
-})
-  .then(res => console.log(`Status: ${res.status} - ${res.statusText}`))
+      time: Date.now(),
+    },
+  }),
+}).then((res) => console.log(`Status: ${res.status} - ${res.statusText}`))

@@ -4,14 +4,17 @@ const W3CWebSocket = require('websocket').w3cwebsocket
 
 const config = require('./auth0-config')
 
-config.getToken().then(accessToken => {
+config.getToken().then((accessToken) => {
   // Create a WebSocket connection
-  const ws = new W3CWebSocket(`wss://${config.REALTIME_CLUSTER_HOSTNAME}/apps/${config.REALTIME_APP_ID}?access_token=${accessToken}`)
+  const ws = new W3CWebSocket(
+    `wss://${config.REALTIME_CLUSTER_HOSTNAME}/apps/${config.REALTIME_APP_ID}?access_token=${accessToken}`
+  )
   ws.onmessage = (event) => {
     // Parse incoming WebSocket messages
-    const { topic, messageType, data } = event.data instanceof ArrayBuffer
-      ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
-      : JSON.parse(event.data)
+    const { topic, messageType, data } =
+      event.data instanceof ArrayBuffer
+        ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
+        : JSON.parse(event.data)
 
     // Check if it's a welcome message from the 'main' topic
     if (topic === 'main' && messageType === 'welcome') {
@@ -19,7 +22,12 @@ config.getToken().then(accessToken => {
     }
 
     // Log incoming WebSocket messages
-    console.log('> Incoming message:', { topic, messageType, data, compression: event.data instanceof ArrayBuffer })
+    console.log('> Incoming message:', {
+      topic,
+      messageType,
+      data,
+      compression: event.data instanceof ArrayBuffer
+    })
   }
   ws.onerror = (err) => {
     // Handle and log WebSocket connection errors

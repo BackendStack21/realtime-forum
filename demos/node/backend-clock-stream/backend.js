@@ -1,4 +1,5 @@
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 
 const { getAuthToken } = require('../utils')
 
@@ -20,9 +21,15 @@ const options = {
 }
 
 setInterval(() => {
-  const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-    permissions: ['realtime:publisher:write:topic:' + TOPIC]
-  }, ALGORITHM, 'app-publisher')
+  const AUTH_TOKEN = getAuthToken(
+    ADMIN_SIGNING_KEY,
+    5,
+    {
+      permissions: ['realtime:publisher:write:topic:' + TOPIC]
+    },
+    ALGORITHM,
+    'app-publisher'
+  )
 
   options.headers.Authorization = `Bearer ${AUTH_TOKEN}`
   options.body = JSON.stringify({
@@ -32,12 +39,16 @@ setInterval(() => {
   })
 
   const startTime = new Date().getTime()
-  fetch(URL, options).then(async response => {
+  fetch(URL, options).then(async (response) => {
     console.log({
       statusText: response.statusText,
       status: response.status
     })
 
-    console.log('Publishing latency (HTTP endpoint): ' + (new Date().getTime() - startTime) + 'ms')
+    console.log(
+      'Publishing latency (HTTP endpoint): ' +
+        (new Date().getTime() - startTime) +
+        'ms'
+    )
   })
 }, 1000)

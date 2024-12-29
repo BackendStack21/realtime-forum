@@ -1,6 +1,6 @@
 const config = require('./auth0-config')
 
-config.getToken().then(accessToken => {
+config.getToken().then((accessToken) => {
   const URL = `https://${config.REALTIME_CLUSTER_HOSTNAME}/api/topics/${config.REALTIME_APP_ID}/publish`
   const TOPIC = 'main'
   const MESSAGE = 'Hello on the other side ;)'
@@ -18,11 +18,10 @@ config.getToken().then(accessToken => {
     })
   }
 
-  fetch(URL, options)
-    .then(response => {
-      console.log({
-        statusText: response.statusText,
-        status: response.status
-      })
+  fetch(URL, options).then((response) => {
+    console.log({
+      statusText: response.statusText,
+      status: response.status
     })
+  })
 })

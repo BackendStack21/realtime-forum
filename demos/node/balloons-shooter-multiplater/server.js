@@ -15,12 +15,18 @@ const SECURE_TOPIC = 'secure/inbound'
 
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
-const ACCESS_TOKEN = getAuthToken(WEBSOCKET_CLIENTS_SIGNING_KEY, 5, {
-  permissions: [
-    'realtime:subscriber:read:topic:' + SECURE_TOPIC,
-    'realtime:publisher:write:topic:main'
-  ]
-}, ALGORITHM, 'server')
+const ACCESS_TOKEN = getAuthToken(
+  WEBSOCKET_CLIENTS_SIGNING_KEY,
+  5,
+  {
+    permissions: [
+      'realtime:subscriber:read:topic:' + SECURE_TOPIC,
+      'realtime:publisher:write:topic:main'
+    ]
+  },
+  ALGORITHM,
+  'server'
+)
 
 // Game state
 const players = new Map()
@@ -29,25 +35,30 @@ let balloons = []
 let shouldUpdateGame = false
 
 // Create a WebSocket connection
-const ws = new W3CWebSocket(`wss://${CLUSTER_HOSTNAME}/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`)
+const ws = new W3CWebSocket(
+  `wss://${CLUSTER_HOSTNAME}/apps/${APP_ID}?access_token=${ACCESS_TOKEN}`
+)
 ws.onmessage = (event) => {
   shouldUpdateGame = true
 
-  const { topic, messageType, data } = event.data instanceof ArrayBuffer
-    ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
-    : JSON.parse(event.data)
+  const { topic, messageType, data } =
+    event.data instanceof ArrayBuffer
+      ? JSON.parse(new TextDecoder().decode(event.data)) // compression is enabled
+      : JSON.parse(event.data)
 
   // Check if it's a welcome message from the 'main' topic
   if (topic === 'main' && messageType === 'welcome') {
     console.log('> Connected!')
 
     // Subscribe to a custom secure topic
-    ws.send(JSON.stringify({
-      type: 'subscribe',
-      data: {
-        topic: SECURE_TOPIC
-      }
-    }))
+    ws.send(
+      JSON.stringify({
+        type: 'subscribe',
+        data: {
+          topic: SECURE_TOPIC
+        }
+      })
+    )
 
     setInterval(() => {
       if (!shouldUpdateGame) {
@@ -63,16 +74,18 @@ ws.onmessage = (event) => {
         balloons
       }
       if (ws && ws.readyState === W3CWebSocket.OPEN) {
-        ws.send(JSON.stringify({
-          type: 'publish',
-          data: {
-            topic: 'main',
-            compress: true,
-            payload: {
-              gameState
+        ws.send(
+          JSON.stringify({
+            type: 'publish',
+            data: {
+              topic: 'main',
+              compress: true,
+              payload: {
+                gameState
+              }
             }
-          }
-        }))
+          })
+        )
       }
     }, 1000 / 60) // 60 FPS
   } else if (topic === SECURE_TOPIC && messageType === 'presence') {
@@ -147,7 +160,9 @@ function createBalloon () {
     id: Date.now(),
     p: { x: Math.random() * 800, y: Math.random() * 600 },
     radius: 20,
-    color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    color: `rgb(${Math.random() * 255},${Math.random() * 255},${
+      Math.random() * 255
+    })`
   }
 }
 
@@ -161,12 +176,12 @@ function updateGame () {
   generateBalloons()
 
   // Update projectile ps and check for collisions
-  projectiles = projectiles.filter(projectile => {
+  projectiles = projectiles.filter((projectile) => {
     projectile.p.x += projectile.v.x
     projectile.p.y += projectile.v.y
 
     // Check for balloon collisions
-    balloons = balloons.filter(balloon => {
+    balloons = balloons.filter((balloon) => {
       const dx = projectile.p.x - balloon.p.x
       const dy = projectile.p.y - balloon.p.y
       const distance = Math.sqrt(dx * dx + dy * dy)
@@ -183,8 +198,12 @@ function updateGame () {
     })
 
     // Keep projectile if it's within bounds
-    return projectile.p.x >= 0 && projectile.p.x <= 800 &&
-      projectile.p.y >= 0 && projectile.p.y <= 600
+    return (
+      projectile.p.x >= 0 &&
+      projectile.p.x <= 800 &&
+      projectile.p.y >= 0 &&
+      projectile.p.y <= 600
+    )
   })
 
   // Keep only the last 3 projectiles

@@ -1,17 +1,23 @@
-const { getAuthToken } = require('./utils')
+const {getAuthToken} = require('./utils')
 
 const {
   APP_ID,
   ADMIN_SIGNING_KEY, // For HS* signing algorithms, value should be "Admin Clients/Verification Key"
   ALGORITHM,
-  CLUSTER_HOSTNAME
+  CLUSTER_HOSTNAME,
 } = require('./config') // Import configuration constants
 
 // Generate an access token with a 5 seconds expiration
 // In production, JWT tokens should be obtained from an IDP (https://en.wikipedia.org/wiki/Identity_provider)
-const AUTH_TOKEN = getAuthToken(ADMIN_SIGNING_KEY, 5, {
-  permissions: ['realtime:admin:manage:subscribers']
-}, ALGORITHM, 'app-subscribers-admin')
+const AUTH_TOKEN = getAuthToken(
+  ADMIN_SIGNING_KEY,
+  5,
+  {
+    permissions: ['realtime:admin:manage:subscribers'],
+  },
+  ALGORITHM,
+  'app-subscribers-admin',
+)
 
 // Defining the arguments for the unsubscribe operation
 const URL = `https://${CLUSTER_HOSTNAME}/api/topics/${APP_ID}/unsubscribe`
@@ -22,18 +28,17 @@ const options = {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${AUTH_TOKEN}`
+    Authorization: `Bearer ${AUTH_TOKEN}`,
   },
   body: JSON.stringify({
     topicPatterns: ['secure/*'],
-    subject: 'user0@example.com'
-  })
+    subject: 'user0@example.com',
+  }),
 }
 
-fetch(URL, options)
-  .then(response => {
-    console.log({
-      statusText: response.statusText,
-      status: response.status
-    })
+fetch(URL, options).then((response) => {
+  console.log({
+    statusText: response.statusText,
+    status: response.status,
   })
+})

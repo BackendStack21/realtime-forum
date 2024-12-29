@@ -7,7 +7,7 @@ module.exports = {
   AUTH0_DOMAIN: 'YOUR AUTH0 DOMAIN HERE...',
   AUTH0_AUDIENCE: 'YOUR API AUDIENCE HERE...',
   AUTH0_GRANT_TYPE: 'client_credentials',
-  
+
   getToken () {
     return fetch(`https://${this.AUTH0_DOMAIN}/oauth/token`, {
       method: 'POST',
@@ -21,7 +21,7 @@ module.exports = {
         grant_type: this.AUTH0_GRANT_TYPE
       })
     })
-      .then(response => response.json())
-      .then(data => data.access_token)
+      .then((response) => response.json())
+      .then((data) => data.access_token)
   }
 }

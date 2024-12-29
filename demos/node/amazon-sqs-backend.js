@@ -1,4 +1,4 @@
-const { getAuthToken } = require('./utils')
+const {getAuthToken} = require('./utils')
 const AWS = require('@aws-sdk/client-sqs')
 
 const {
@@ -9,12 +9,12 @@ const {
   AMAZON_SQS_QUEUE_URL,
   AWS_REGION,
   AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY
+  AWS_SECRET_ACCESS_KEY,
 } = require('./config') // Import configuration constants
 
 // Define the permissions for the publisher
 const PUBLISHER_PERMISSIONS = {
-  permissions: ['realtime:publisher:write:topic:*']
+  permissions: ['realtime:publisher:write:topic:*'],
 }
 // Define the publishing endpoint
 const PUBLISHING_ENDPOINT = `https://${CLUSTER_HOSTNAME}/api/topics/${APP_ID}/publish`
@@ -24,31 +24,31 @@ const sqs = new AWS.SQS({
   region: AWS_REGION,
   credentials: {
     accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY
-  }
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  },
 })
 
 // Define the main function
-async function init () {
+async function init() {
   // Start processing SQS Queue messages
   while (true) {
     try {
       // Receive messages from the SQS queue
-      const { Messages } = await sqs.receiveMessage({
+      const {Messages} = await sqs.receiveMessage({
         QueueUrl: AMAZON_SQS_QUEUE_URL,
         MaxNumberOfMessages: 5,
-        WaitTimeSeconds: 20
+        WaitTimeSeconds: 20,
       })
 
       // If there are any messages
       if (Messages?.length > 0) {
         // Process each message
         for (const Message of Messages) {
-          const { Body } = Message
+          const {Body} = Message
 
           // Parse the message body
-          const { msg } = JSON.parse(Body)
-          const { client, payload, id } = msg
+          const {msg} = JSON.parse(Body)
+          const {client, payload, id} = msg
           // Define responding topic for the client
           const topic = `priv/${client.subject}`
 
@@ -62,16 +62,22 @@ async function init () {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${getAuthToken(ADMIN_SIGNING_KEY, 5, PUBLISHER_PERMISSIONS, ALGORITHM, 'backend')}`
+              Authorization: `Bearer ${getAuthToken(
+                ADMIN_SIGNING_KEY,
+                5,
+                PUBLISHER_PERMISSIONS,
+                ALGORITHM,
+                'backend',
+              )}`,
             },
             body: JSON.stringify({
               topic,
               message: {
                 type: 'response',
                 ack: id,
-                status: 'OK'
-              }
-            })
+                status: 'OK',
+              },
+            }),
           }
 
           // Send the acknowledgement request
@@ -79,13 +85,13 @@ async function init () {
           // Optionally log the response status
           console.log({
             statusText: response.statusText,
-            status: response.status
+            status: response.status,
           })
 
           // Delete the processed message from the SQS queue
           await sqs.deleteMessage({
             QueueUrl: AMAZON_SQS_QUEUE_URL,
-            ReceiptHandle: Message.ReceiptHandle
+            ReceiptHandle: Message.ReceiptHandle,
           })
         }
       }

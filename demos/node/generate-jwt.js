@@ -8,11 +8,11 @@ const EXPIRES_IN = process.env.EXPIRES_IN || '10m' // Default token expiration t
 const TOKEN_TYPE = process.env.TOKEN_TYPE || 'client' // Default token type: 'client' or 'admin'
 const DEFAULT_PAYLOAD = {
   admin: {
-    permissions: ['realtime:publisher:write:topic:*']
+    permissions: ['realtime:publisher:write:topic:*'],
   },
   client: {
-    permissions: ['realtime:subscriber:read:topic:*']
-  }
+    permissions: ['realtime:subscriber:read:topic:*'],
+  },
 }
 
 /**
@@ -22,11 +22,12 @@ const DEFAULT_PAYLOAD = {
  *
  * @returns {string} The generated authentication token.
  */
-function generateAuthToken () {
+function generateAuthToken() {
   // Select the signing key based on the token type
-  const signingKey = TOKEN_TYPE === 'client'
-    ? config.WEBSOCKET_CLIENTS_SIGNING_KEY // Client token signing key
-    : config.ADMIN_SIGNING_KEY // Admin token signing key
+  const signingKey =
+    TOKEN_TYPE === 'client'
+      ? config.WEBSOCKET_CLIENTS_SIGNING_KEY // Client token signing key
+      : config.ADMIN_SIGNING_KEY // Admin token signing key
 
   // Generate the token using the utility function
   const token = utils.getAuthToken(
@@ -34,7 +35,7 @@ function generateAuthToken () {
     EXPIRES_IN,
     DEFAULT_PAYLOAD[TOKEN_TYPE] || {}, // Payload is empty, can be extended to include additional information
     config.ALGORITHM, // Algorithm from the configuration
-    SUBJECT // Subject identifier
+    SUBJECT, // Subject identifier
   )
 
   return token
@@ -46,5 +47,5 @@ console.log({
   token,
   expiresIn: EXPIRES_IN,
   subject: SUBJECT,
-  tokeType: TOKEN_TYPE
+  tokeType: TOKEN_TYPE,
 })
