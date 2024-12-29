@@ -5,7 +5,7 @@ module.exports = {
   getRandomId () {
     return Math.random().toString(36).substring(2)
   },
-  getAuthToken (secretOrPrivateKey, expiresIn, payload = {}, algorithm = 'HS256', subject = 'user-id-goes-here') {
+  getAuthToken (secretOrPrivateKey, expiresIn, payload = {}, algorithm = 'HS256', subject = 'user-or-device-id-goes-here') {
     // Generate and return a JSON Web Token for authentication
     return jwt.sign(payload, secretOrPrivateKey, {
       algorithm,
